@@ -10,11 +10,13 @@ import { useJobs } from '../../hooks/useJobs';
 import { useSavedJobs } from '../../hooks/useSavedJobs';
 
 export function JobDetailsPage() {
-  const { id } = useParams();
+  const { id, source } = useParams();
   const { data = [], isLoading } = useJobs('', 'all');
   const { savedJobs, toggleJob, isSaved } = useSavedJobs();
 
-  const job = data.find((item) => item.id === id) ?? savedJobs.find((item) => item.id === id);
+  const job =
+    data.find((item) => item.id === id && (!source || item.source === source)) ??
+    savedJobs.find((item) => item.id === id && (!source || item.source === source));
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -33,7 +35,7 @@ export function JobDetailsPage() {
 
   return (
     <PageContainer className="space-y-6 pb-12">
-      <JobDetailsHeader job={job} isSaved={isSaved(job.id)} onToggleSave={toggleJob} />
+      <JobDetailsHeader job={job} isSaved={isSaved(job)} onToggleSave={toggleJob} />
       <JobInformation job={job} />
       <div className="grid gap-6 lg:grid-cols-[1.5fr_0.5fr]">
         <JobDescription job={job} />

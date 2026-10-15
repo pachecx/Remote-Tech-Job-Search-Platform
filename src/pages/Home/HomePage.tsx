@@ -9,6 +9,7 @@ import { jobCategories } from '../../constants/jobCategories';
 import { useJobs } from '../../hooks/useJobs';
 import { useSavedJobs } from '../../hooks/useSavedJobs';
 import { filterJobs } from '../../utils/filterJobs';
+import { getJobKey } from '../../utils/jobIdentity';
 
 export function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,7 +50,7 @@ export function HomePage() {
       <JobsSection
         jobs={filteredJobs}
         isLoading={isLoading}
-        error={error as Error | null}
+        error={error}
         searchTerm={searchTerm}
         selectedType={selectedType}
         setSelectedType={setSelectedType}
@@ -57,7 +58,7 @@ export function HomePage() {
         setRemoteOnly={setRemoteOnly}
         selectedLocation={selectedLocation}
         setSelectedLocation={setSelectedLocation}
-        savedJobs={savedJobs.map((job) => job.id)}
+        savedJobs={savedJobs.map(getJobKey)}
         onToggleSave={toggleJob}
       />
     </>

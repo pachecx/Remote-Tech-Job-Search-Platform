@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import type { Job } from '../../types/job';
 import { formatDate } from '../../utils/formatDate';
+import { getJobKey, getJobPath } from '../../utils/jobIdentity';
 
 interface SavedJobsListProps {
   jobs: Job[];
@@ -24,7 +25,7 @@ export function SavedJobsList({ jobs }: SavedJobsListProps) {
   return (
     <div className="space-y-4">
       {jobs.map((job) => (
-        <div key={job.id} className="flex flex-col gap-4 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+        <div key={getJobKey(job)} className="flex flex-col gap-4 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             {job.company_logo ? (
               <img src={job.company_logo} alt={job.company_name} className="h-12 w-12 rounded-2xl object-cover" />
@@ -35,8 +36,15 @@ export function SavedJobsList({ jobs }: SavedJobsListProps) {
             )}
 
             <div>
-              <p className="text-xs uppercase tracking-[0.12em] text-slate-500">{job.company_name}</p>
-              <Link to={`/job/${job.id}`} className="mt-1 block text-lg font-semibold text-slate-900 hover:text-violet-700">
+              <div className="flex items-center gap-2">
+                <p className="text-xs uppercase tracking-[0.12em] text-slate-500">{job.company_name}</p>
+                {job.source === 'mock' && (
+                  <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                    Demo
+                  </span>
+                )}
+              </div>
+              <Link to={getJobPath(job)} className="mt-1 block text-lg font-semibold text-slate-900 hover:text-violet-700">
                 {job.title}
               </Link>
               <p className="mt-1 text-sm text-slate-500">{job.location} • {job.job_type}</p>
@@ -45,7 +53,7 @@ export function SavedJobsList({ jobs }: SavedJobsListProps) {
 
           <div className="flex items-center gap-3">
             <span className="text-sm text-slate-500">{formatDate(job.publication_date)}</span>
-            <Link to={`/job/${job.id}`} className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3.5 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
+            <Link to={getJobPath(job)} className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3.5 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
               View
               <ArrowRight className="h-4 w-4" />
             </Link>

@@ -1,9 +1,11 @@
-import { BriefcaseBusiness, Menu } from 'lucide-react';
+import { BriefcaseBusiness, Menu, Moon, Sun } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Button } from '../ui/Button';
 import { MobileMenu } from './MobileMenu';
+import { dataSource } from '../../config/dataSource';
+import { useTheme } from '../../hooks/useTheme';
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -13,6 +15,7 @@ const navItems = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur-sm">
@@ -23,6 +26,11 @@ export function Header() {
           </div>
           <div>
             <p className="text-lg font-semibold tracking-tight text-slate-900">DevJobs</p>
+            <p className="text-[11px] font-medium text-amber-700">
+              {dataSource === 'mock'
+                ? 'Demo Mode — Sample job listings'
+                : 'Remote jobs from Remotive'}
+            </p>
           </div>
         </NavLink>
 
@@ -42,18 +50,34 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button variant="secondary" size="sm">Remote roles</Button>
-        </div>
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            <Button variant="secondary" size="sm">Remote roles</Button>
+          </div>
 
-        <button
-          type="button"
-          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-          className="rounded-full p-2 text-slate-700 transition hover:bg-slate-100 md:hidden"
-          aria-label="Toggle navigation menu"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="rounded-full p-2 text-slate-700 transition hover:bg-slate-100"
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? (
+              <Moon className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Sun className="h-5 w-5" aria-hidden="true" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="rounded-full p-2 text-slate-700 transition hover:bg-slate-100 md:hidden"
+            aria-label="Toggle navigation menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

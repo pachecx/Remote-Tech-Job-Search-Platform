@@ -40,10 +40,11 @@ export function JobsSection({
   onToggleSave,
   searchTerm,
 }: JobsSectionProps) {
-  const [page, setPage] = useState(1);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   const itemsPerPage = 6;
+  const [pagination, setPagination] = useState({ jobs, page: 1 });
+  const page = pagination.jobs === jobs ? pagination.page : 1;
 
   const paginatedJobs = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -72,17 +73,14 @@ export function JobsSection({
             selectedType={selectedType}
             setSelectedType={(value) => {
               setSelectedType(value);
-              setPage(1);
             }}
             remoteOnly={remoteOnly}
             setRemoteOnly={(value) => {
               setRemoteOnly(value);
-              setPage(1);
             }}
             selectedLocation={selectedLocation}
             setSelectedLocation={(value) => {
               setSelectedLocation(value);
-              setPage(1);
             }}
           />
         </div>
@@ -111,7 +109,11 @@ export function JobsSection({
           ) : (
             <>
               <JobList jobs={paginatedJobs} savedJobs={savedJobs} onToggleSave={onToggleSave} />
-              <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={(nextPage) => setPagination({ jobs, page: nextPage })}
+              />
             </>
           )}
         </div>
@@ -123,17 +125,14 @@ export function JobsSection({
         selectedType={selectedType}
         setSelectedType={(value) => {
           setSelectedType(value);
-          setPage(1);
         }}
         remoteOnly={remoteOnly}
         setRemoteOnly={(value) => {
           setRemoteOnly(value);
-          setPage(1);
         }}
         selectedLocation={selectedLocation}
         setSelectedLocation={(value) => {
           setSelectedLocation(value);
-          setPage(1);
         }}
       />
     </section>

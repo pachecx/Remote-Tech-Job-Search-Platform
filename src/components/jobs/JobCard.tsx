@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import type { Job } from '../../types/job';
 import { formatDate } from '../../utils/formatDate';
+import { getJobPath } from '../../utils/jobIdentity';
 
 interface JobCardProps {
   job: Job;
@@ -23,7 +24,14 @@ export function JobCard({ job, isSaved, onToggleSave }: JobCardProps) {
             </div>
           )}
           <div>
-            <p className="text-xs uppercase tracking-[0.12em] text-slate-500">{job.company_name}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-xs uppercase tracking-[0.12em] text-slate-500">{job.company_name}</p>
+              {job.source === 'mock' && (
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                  Demo
+                </span>
+              )}
+            </div>
             <p className="mt-1 text-sm text-slate-500">{job.category}</p>
           </div>
         </div>
@@ -39,7 +47,7 @@ export function JobCard({ job, isSaved, onToggleSave }: JobCardProps) {
       </div>
 
       <div className="mt-5 space-y-3">
-        <Link to={`/job/${job.id}`} className="block text-xl font-semibold text-slate-900 hover:text-violet-700">
+        <Link to={getJobPath(job)} className="block text-xl font-semibold text-slate-900 hover:text-violet-700">
           {job.title}
         </Link>
 

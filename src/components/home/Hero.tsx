@@ -1,5 +1,6 @@
 import { ArrowRight, BriefcaseBusiness, Globe, Sparkles } from 'lucide-react';
 
+import { TrendingJobs } from './TrendingJobs';
 import { Button } from '../ui/Button';
 
 export function Hero() {
@@ -44,27 +45,7 @@ export function Hero() {
           </div>
 
           <div className="flex items-center justify-center">
-            <div className="w-full max-w-md rounded-[28px] border border-slate-200 bg-slate-50 p-5 shadow-inner">
-              <div className="mb-4 flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-500">Trending today</p>
-                <span className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-700">
-                  Live
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {[
-                  ['Senior Frontend Engineer', 'Remote • US / EU'],
-                  ['Product Designer', 'Remote • Global'],
-                  ['Staff Platform Engineer', 'Remote • Canada'],
-                ].map(([title, meta]) => (
-                  <div key={title} className="rounded-2xl border border-slate-200 bg-white p-3">
-                    <p className="text-sm font-semibold text-slate-900">{title}</p>
-                    <p className="mt-1 text-xs text-slate-500">{meta}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TrendingJobs />
           </div>
         </div>
       </div>

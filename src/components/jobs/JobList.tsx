@@ -1,4 +1,5 @@
 import type { Job } from '../../types/job';
+import { getJobKey } from '../../utils/jobIdentity';
 import { JobCard } from './JobCard';
 
 interface JobListProps {
@@ -12,9 +13,9 @@ export function JobList({ jobs, savedJobs, onToggleSave }: JobListProps) {
     <div className="grid gap-5 md:grid-cols-2">
       {jobs.map((job) => (
         <JobCard
-          key={job.id}
+          key={getJobKey(job)}
           job={job}
-          isSaved={savedJobs.includes(job.id)}
+          isSaved={savedJobs.includes(getJobKey(job))}
           onToggleSave={onToggleSave}
         />
       ))}

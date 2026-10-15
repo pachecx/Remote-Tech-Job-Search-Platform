@@ -47,15 +47,25 @@ export function JobDetailsHeader({
             <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
             {isSaved ? "Saved" : "Save role"}
           </button>
-          <a
-            href={job.url}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
-          >
-            Apply now
-            <ExternalLink className="h-4 w-4" />
-          </a>
+          {job.source === 'mock' ? (
+            <span className="cursor-not-allowed rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-500">
+              Demo position — applications unavailable
+            </span>
+          ) : job.url ? (
+            <a
+              href={job.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+            >
+              Apply now
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          ) : (
+            <span className="cursor-not-allowed rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-500">
+              Application link unavailable
+            </span>
+          )}
         </div>
       </div>
     </div>
