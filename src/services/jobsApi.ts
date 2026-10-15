@@ -1,4 +1,7 @@
 import type { Job } from "../types/job";
+import { dataSource } from "../config/dataSource";
+import { mockJobs } from "../mocks/jobs.mock";
+import { filterJobs } from "../utils/filterJobs";
 
 const API_URL = "https://remotive.com/api/remote-jobs";
 
@@ -7,6 +10,7 @@ function normalizeJob(job: Partial<Job> & { [key: string]: unknown }): Job {
     id: String(
       job.id ?? `${job.title ?? "job"}-${job.company_name ?? "company"}`,
     ),
+    source: "api",
     title: String(job.title ?? "Untitled role"),
     company_name: String(job.company_name ?? "Remote company"),
     company_logo:
@@ -21,7 +25,7 @@ function normalizeJob(job: Partial<Job> & { [key: string]: unknown }): Job {
         : undefined,
     salary: typeof job.salary === "string" ? job.salary : undefined,
     description: typeof job.description === "string" ? job.description : "",
-    url: typeof job.url === "string" ? job.url : "#",
+    url: typeof job.url === "string" ? job.url : "",
     category: typeof job.category === "string" ? job.category : "software-dev",
   };
 }
@@ -54,4 +58,27 @@ export async function fetchJobs({
   const data = (await response.json()) as { jobs?: Array<Partial<Job>> };
 
   return (data.jobs ?? []).map((job) => normalizeJob(job));
+}
+
+export async function getJobs({
+  search = "",
+  category = "all",
+}: {
+  search?: string;
+  category?: string;
+} = {}): Promise<Job[]> {
+  if (dataSource === "mock") {
+    const categoryJobs =
+      category === "all"
+        ? mockJobs
+        : mockJobs.filter((job) => job.category === category);
+
+    return filterJobs(
+      categoryJobs,
+      { selectedType: "all", selectedLocation: "all", remoteOnly: false },
+      search,
+    );
+  }
+
+  return fetchJobs({ search, category });
 }

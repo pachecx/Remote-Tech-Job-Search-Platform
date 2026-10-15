@@ -1,7 +1,9 @@
 export type JobType = 'full-time' | 'part-time' | 'contract' | 'freelance' | 'temporary' | 'internship' | 'all';
+export type DataSource = 'api' | 'mock';
 
 export interface Job {
   id: string;
+  source: DataSource;
   title: string;
   company_name: string;
   company_logo?: string | null;
