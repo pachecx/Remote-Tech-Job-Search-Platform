@@ -1,9 +1,12 @@
 import { ArrowRight, BriefcaseBusiness, Globe, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { TrendingJobs } from './TrendingJobs';
 import { Button } from '../ui/Button';
 
 export function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section className="mx-auto max-w-7xl px-4 pb-10 pt-6 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
@@ -24,10 +27,17 @@ export function Hero() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <Button variant="primary" size="lg" icon={<ArrowRight className="h-4 w-4" />}>
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<ArrowRight className="h-4 w-4" />}
+                onClick={() =>
+                  document.getElementById('jobs')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              >
                 Explore jobs
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => navigate('/saved')}>
                 View saved roles
               </Button>
             </div>

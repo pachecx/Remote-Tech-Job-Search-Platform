@@ -59,7 +59,7 @@ export function JobsSection({
       : `${selectedType === 'all' ? 'All types' : selectedType.replace('-', ' ')}`;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8">
+    <section id="jobs" className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8">
       <div className="mb-5 flex items-center justify-between gap-3 lg:hidden">
         <div className="text-sm text-slate-500">Explore roles</div>
         <Button variant="outline" size="sm" onClick={() => setIsMobileFiltersOpen(true)} icon={<SlidersHorizontal className="h-4 w-4" />}>
